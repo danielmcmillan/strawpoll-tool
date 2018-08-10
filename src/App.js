@@ -39,6 +39,7 @@ const computePollList = polls =>
     ...polls[id],
     id,
     average: strawPoll.computeAverage(polls[id]),
+    voteCount: strawPoll.computeTotalVoteCount(polls[id]),
   }))
   .sort((pollA, pollB) => pollA.average < pollB.average)
   .map((poll, index) => ({

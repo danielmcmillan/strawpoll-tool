@@ -59,6 +59,13 @@ export const computeAverage = poll => {
   return totalScore / totalVoteCount;
 };
 
+export const computeTotalVoteCount = poll => {
+  if (poll.votes != null) {
+    return poll.votes.reduce((total, voteCount) => total + voteCount, 0);
+  }
+  return null;
+}
+
 export const loadPoll = async pollID => {
   const result = await fetch(getAPIURL(pollID));
   return await result.json();

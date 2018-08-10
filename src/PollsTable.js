@@ -26,8 +26,6 @@ class PollsTable extends Component {
 
   render() {
     return (
-      // <div style={{...styles.container, ...this.props.style}}>
-      // </div>
       <ReactTable
         className='-striped -highlight'
         style={{...styles.table, ...this.props.style}}
@@ -45,6 +43,13 @@ class PollsTable extends Component {
           {
             Header: 'Average',
             accessor: 'average',
+            Cell: row => row.value ? row.value.toFixed(5) : null,
+            width: 100,
+          },
+          {
+            Header: 'Vote Count',
+            accessor: 'voteCount',
+            width: 100,
           },
           {
             Header: '',
