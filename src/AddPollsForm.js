@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import Button from './Button';
 
-// All or part of the URL immediately preceding the ID
-const urlPrefix = 'strawpoll.me/';
 
 const styles = {
   container: {
@@ -15,6 +13,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 1,
   },
 
   form: {
@@ -58,34 +57,9 @@ class AddPollsForm extends Component {
     text: "",
   };
 
-  _parseLine = idOrURL => {
-    const trimmed = idOrURL.trim();
-    if (trimmed.length === 0) {
-      return null;
-    }
-    if (trimmed.includes('/')) {
-      // Assume URL
-      const prefixStart = trimmed.indexOf(urlPrefix);
-      if (prefixStart < 0) {
-        return null;
-      }
-      const idStart = prefixStart + urlPrefix.length;
-      const idEnd = trimmed.indexOf('/', idStart);
-      const id = trimmed.substring(idStart, idEnd >= 0 ? idEnd : trimmed.length);
-      if (id.length > 0) {
-        return id;
-      } else {
-        return null;
-      }
-    } else {
-      // Assume it's already an ID
-      return trimmed;
-    }
-  }
-
   _handleSubmit = () => {
-    const ids = this.state.text.split('\n').map(this._parseLine).filter(id => id != null);
-    this.props.onSubmit(ids);
+    const idsAndURLs = this.state.text.split('\n');
+    this.props.onSubmit(idsAndURLs);
   }
 
   render() {
