@@ -4,6 +4,9 @@ const urlPrefix = 'strawpoll.me/';
 // Get the URL for getting poll data
 const getAPIURL = id => `https://www.strawpoll.me/api/v2/polls/${id}`;
 
+// Get normal poll URL
+export const getURL = id => `https://www.strawpoll.me/${id}`;
+
 /**
  * Get poll ID from an ID or URL.
  * @param idOrURL Either a Straw Poll ID, or a Straw Poll URL.

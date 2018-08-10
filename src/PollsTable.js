@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
+import { getURL } from './strawPoll';
 
 const styles = {
   table: {
   },
 };
-
-const getURL = id => `https://www.strawpoll.me/${id}`;
 
 const renderName = poll => {
   let value = 'Loading...';
@@ -38,6 +37,7 @@ class PollsTable extends Component {
           },
           {
             Header: 'Poll',
+            accessor: 'title',
             Cell: row => renderName(row.original),
           },
           {

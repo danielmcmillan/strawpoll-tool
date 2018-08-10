@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { CSVLink } from 'react-csv'
 import AddPollsForm from './AddPollsForm';
 import PollsTable from './PollsTable';
 import Button from './Button';
@@ -29,8 +30,16 @@ const styles = {
     flex: 1,
   },
 
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+  },
+
   addButton: {
-    margin: 10,
+    flex: 1,
+    marginLeft: 10,
   },
 };
 
@@ -46,6 +55,24 @@ const computePollList = polls =>
     ...poll,
     rank: index + 1,
   }));
+
+const csvDataFromPollList = pollList => pollList.map(poll => {
+  const {options, votes} = poll;
+  const data = {
+    rank: poll.rank,
+    url: strawPoll.getURL(poll.id),
+    title: poll.title,
+    average: poll.average,
+    totalVotes: poll.voteCount,
+  };
+  if (options != null && votes != null && options.length === votes.length) {
+    options.forEach((option, index) => {
+      const vote = votes[index];
+      data[option] = vote;
+    });
+  }
+  return data;
+});
 
 class App extends Component {
   state = {
@@ -123,10 +150,15 @@ class App extends Component {
             onRemovePoll={this.handleRemovePoll}
             onClickPoll={this.handleClickPoll}
           />
-          <Button
-            style={styles.addButton}
-            onClick={() => this.setState({isAddFormOpen: true})}
-          >Add Polls</Button>
+          <div style={styles.buttonContainer}>
+            {Object.keys(this.state.polls).length > 0 &&
+              <CSVLink className='strawpoll-tool-button' data={csvDataFromPollList(pollList)} filename="polls.csv">Export</CSVLink>
+            }
+            <Button
+              style={styles.addButton}
+              onClick={() => this.setState({isAddFormOpen: true})}
+            >Add Polls</Button>
+          </div>
 
           {this.state.isAddFormOpen &&
             <AddPollsForm
