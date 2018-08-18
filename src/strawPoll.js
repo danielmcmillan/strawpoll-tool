@@ -1,8 +1,6 @@
 // All or part of the URL immediately preceding the ID
 const urlPrefix = 'strawpoll.me/';
-
-// Get the URL for getting poll data
-const getAPIURL = id => `https://www.strawpoll.me/api/v2/polls/${id}`;
+const apiURL = 'https://www.strawpoll.me/api/v2/polls';
 
 // Get normal poll URL
 export const getURL = id => `https://www.strawpoll.me/${id}`;
@@ -70,6 +68,6 @@ export const computeTotalVoteCount = poll => {
 }
 
 export const loadPoll = async pollID => {
-  const result = await fetch(getAPIURL(pollID));
+  const result = await fetch(`${apiURL}/${pollID}`);
   return await result.json();
 };

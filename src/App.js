@@ -50,7 +50,7 @@ const computePollList = polls =>
     average: strawPoll.computeAverage(polls[id]),
     voteCount: strawPoll.computeTotalVoteCount(polls[id]),
   }))
-  .sort((pollA, pollB) => pollA.average < pollB.average)
+  .sort((pollA, pollB) => pollA.average < pollB.average ? 1 : -1)
   .map((poll, index) => ({
     ...poll,
     rank: index + 1,
@@ -151,7 +151,7 @@ class App extends Component {
             onClickPoll={this.handleClickPoll}
           />
           <div style={styles.buttonContainer}>
-            {Object.keys(this.state.polls).length > 0 &&
+            {pollList.length > 0 &&
               <CSVLink className='strawpoll-tool-button' data={csvDataFromPollList(pollList)} filename="polls.csv">Export</CSVLink>
             }
             <Button
